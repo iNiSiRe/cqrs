@@ -87,11 +87,16 @@ class HttpBridgeController extends AbstractController
             }
         }
 
+        if ($result->getOutput() !== null && $result instanceof ErrorInterface === false && $entrypoint->getOutputSchema()) {
+            $output = $this->wizard->transform($entrypoint->getOutputSchema(), $result->getOutput());
+            $result = new Result($output);
+        }
+
         if ($result->getOutput() === null || $result instanceof ErrorInterface) {
             return $result;
         }
 
-        if ($entrypoint->getOutputSchema() && $result->getOutput() instanceof MutableOutputInterface) {
+        if ($entrypoint->getOutputSchema() && $result instanceof MutableOutputInterface) {
             $output = $this->wizard->transform($entrypoint->getOutputSchema(), $result->getOutput());
             $result->setOutput($output);
         }
