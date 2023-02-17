@@ -2,33 +2,18 @@
 
 namespace inisire\RPC\Result;
 
+use inisire\RPC\Http\Cache\CacheControl;
+use inisire\RPC\Http\Cache\Expires;
 use inisire\RPC\Http\HttpResultInterface;
 
 class CachedResult implements ResultInterface, HttpResultInterface, MutableOutputInterface
 {
-    const MODE_PUBLIC = 'public';
-    const MODE_PRIVATE = 'private';
-    const OPTION_MAX_AGE = 'max-age';
-    const OPTION_S_MAXAGE = 's-maxage';
-    const OPTION_IMMUTABLE = 'immutable';
-
-    private array $parts = [];
-
     public function __construct(
         private mixed $output,
-        string $mode = self::MODE_PUBLIC,
-        array $options = []
+        private readonly ?CacheControl $cacheControl = null,
+        private readonly ?Expires $expires = null
     )
     {
-        $this->parts = [$mode];
-
-        foreach ($options as $key => $value) {
-            if ($value === true) {
-                $this->parts[] = $key;
-            } else {
-                $this->parts[] = sprintf('%s=%s', $key, $value);
-            }
-        }
     }
 
     public function getHttpCode(): int
@@ -38,9 +23,17 @@ class CachedResult implements ResultInterface, HttpResultInterface, MutableOutpu
 
     public function getHttpHeaders(): array
     {
-        return [
-            'Cache-Control' => implode(', ', $this->parts)
-        ];
+        $headers = [];
+
+        if ($this->cacheControl) {
+            $headers['Cache-Control'] = $this->cacheControl->toString();
+        }
+
+        if ($this->expires) {
+            $headers['Expires'] = $this->expires->toString();
+        }
+
+        return $headers;
     }
 
     public function getOutput(): mixed
