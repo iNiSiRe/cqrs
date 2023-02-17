@@ -9,6 +9,7 @@ class CachedResult implements ResultInterface, HttpResultInterface, MutableOutpu
     const MODE_PUBLIC = 'public';
     const MODE_PRIVATE = 'private';
     const OPTION_MAX_AGE = 'max-age';
+    const OPTION_S_MAXAGE = 's-maxage';
     const OPTION_IMMUTABLE = 'immutable';
 
     private array $parts = [];
