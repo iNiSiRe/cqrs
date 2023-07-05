@@ -19,7 +19,7 @@ class RPCExtension extends \Symfony\Component\DependencyInjection\Extension\Exte
         $loader->import('*.yaml');
 
         $container->registerForAutoconfiguration(EntrypointRootInterface::class)
-            ->addTag('rpc.command_handler')
+            ->addTag('rpc.root')
             ->setPublic(true)
         ;
 

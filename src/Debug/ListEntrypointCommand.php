@@ -2,7 +2,8 @@
 
 namespace inisire\RPC\Debug;
 
-use inisire\RPC\Entrypoint\EntrypointRegistry;
+use inisire\RPC\Entrypoint\CachedProvider;
+use inisire\RPC\Entrypoint\Loader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -15,7 +16,7 @@ class ListEntrypointCommand extends Command
     protected static $defaultName = 'rpc:debug:list';
     
     public function __construct(
-        private EntrypointRegistry $entrypointRegistry
+        private readonly CachedProvider $provider
     )
     {
         parent::__construct();
@@ -26,7 +27,7 @@ class ListEntrypointCommand extends Command
         $table = new Table($output);
         $table->setHeaders(['RPC', 'Description']);
 
-        foreach ($this->entrypointRegistry->getEntrypoints() as $entrypoint) {
+        foreach ($this->provider->getEntrypoints() as $entrypoint) {
             $table->addRow([$entrypoint->getName(), $entrypoint->getDescription()]);
         }
 

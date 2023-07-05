@@ -1,10 +1,7 @@
 <?php
 
-
 namespace inisire\RPC\Routing;
 
-
-use inisire\RPC\Entrypoint\EntrypointRegistry;
 use inisire\RPC\Http\HttpBridgeController;
 use Symfony\Bundle\FrameworkBundle\Routing\RouteLoaderInterface;
 use Symfony\Component\Config\Loader\Loader;

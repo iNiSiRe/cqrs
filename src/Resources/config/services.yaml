@@ -27,6 +27,11 @@ services:
       !tagged_locator { tag: 'rpc.data_serializer' },
     ]
 
-  inisire\RPC\Entrypoint\EntrypointRegistry:
+  inisire\RPC\Entrypoint\CachedProvider:
     arguments:
-      $container: !tagged_locator { tag: 'rpc.command_handler' }
+      $cacheDir: '%kernel.cache_dir%'
+      $cacheFactory: '@config_cache_factory'
+
+  inisire\RPC\Entrypoint\EntrypointRootRegistry:
+    arguments:
+      $container: !tagged_locator { tag: 'rpc.root' }

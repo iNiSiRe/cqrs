@@ -1,20 +1,16 @@
 <?php
 
-
 namespace inisire\RPC\Documentation;
-
 
 use inisire\DataObject\OpenAPI\RequestSchema;
 use inisire\DataObject\OpenAPI\ResponseSchema;
 use inisire\DataObject\OpenAPI\SpecificationBuilder;
-use inisire\RPC\Entrypoint\EntrypointRegistry;
-use inisire\RPC\Schema\Entrypoint;
+use inisire\RPC\Entrypoint\Loader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 #[AsCommand(
     name: 'rpc:documentation:generate',
@@ -23,8 +19,8 @@ use Symfony\Component\Routing\RouterInterface;
 class DocumentationGenerateCommand extends Command
 {
     public function __construct(
-        private EntrypointRegistry $entrypointRegistry,
-        private string             $rootPath = '/rpc'
+        private readonly Loader $loader,
+        private string          $rootPath = '/rpc'
     )
     {
         parent::__construct();
@@ -40,7 +36,7 @@ class DocumentationGenerateCommand extends Command
     {
         $builder = new SpecificationBuilder();
 
-        foreach ($this->entrypointRegistry->getEntrypoints() as $entrypoint) {
+        foreach ($this->loader->load()->getEntrypoints() as $entrypoint) {
             $request = null;
             $responses = [];
 
