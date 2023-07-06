@@ -25,4 +25,13 @@ class EntrypointRootRegistry
             yield $this->container->get($id);
         }
     }
+
+    public function getRoot(string $name): ?EntrypointRootInterface
+    {
+        if (!$this->container->has($name)) {
+            return null;
+        }
+
+        return $this->container->get($name);
+    }
 }

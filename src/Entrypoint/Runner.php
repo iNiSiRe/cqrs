@@ -14,8 +14,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class Runner
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly Security           $security,
+        private readonly ValidatorInterface     $validator,
+        private readonly Security               $security,
+        private readonly EntrypointRootRegistry $registry
     )
     {
     }
@@ -47,7 +48,13 @@ class Runner
             $arguments[] = $argument;
         }
 
-        $result = call_user_func_array($entrypoint->getCallable(), $arguments);
+        $service = $this->registry->getRoot($entrypoint->getRoot());
+
+        if (!$service) {
+            throw new \RuntimeException(sprintf('Entrypoint root "%s" doesn\'t exists', $entrypoint->getRoot()));
+        }
+
+        $result = call_user_func_array([$service, $entrypoint->getMethod()], $arguments);
 
         if (!$result instanceof ResultInterface) {
             $result = new Result($result);
