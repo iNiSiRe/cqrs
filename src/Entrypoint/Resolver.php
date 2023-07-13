@@ -20,5 +20,7 @@ class Resolver
 
             return $entrypoint;
         }
+
+        return null;
     }
 }
