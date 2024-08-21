@@ -33,7 +33,7 @@ class HttpBridge
     {
         if ($request->getMethod() === 'GET') {
             $data = $request->query->all();
-        } elseif ($request->getMethod() === 'POST' && $request->getContentType() == 'json') {
+        } elseif ($request->getMethod() === 'POST' && $request->getContentTypeFormat() == 'json') {
             // TODO: Check json errors
             $data = json_decode($request->getContent(), true) ?? [];
         } elseif ($request->getMethod() === 'POST') {
