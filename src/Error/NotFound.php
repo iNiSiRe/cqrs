@@ -4,8 +4,10 @@ namespace inisire\RPC\Error;
 
 
 use inisire\DataObject\Error\ErrorMessage;
+use inisire\RPC\Http\HttpResultInterface;
+use inisire\RPC\Result\ResultInterface;
 
-class NotFound extends HttpError
+class NotFound implements ErrorInterface, ResultInterface, HttpResultInterface
 {
     public function getCode(): string
     {
@@ -20,5 +22,15 @@ class NotFound extends HttpError
     public function getHttpCode(): int
     {
         return 404;
+    }
+
+    public function getHttpHeaders(): array
+    {
+        return [];
+    }
+
+    public function getOutput(): mixed
+    {
+        return null;
     }
 }

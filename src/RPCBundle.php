@@ -11,5 +11,6 @@ class RPCBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
+        
     }
 }

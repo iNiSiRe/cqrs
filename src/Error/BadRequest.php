@@ -3,8 +3,10 @@
 namespace inisire\RPC\Error;
 
 use inisire\DataObject\Error\ErrorMessage;
+use inisire\RPC\Http\HttpResultInterface;
+use inisire\RPC\Result\ResultInterface;
 
-class BadRequest extends HttpError
+class BadRequest implements ErrorInterface, ResultInterface, HttpResultInterface
 {
     public function getCode(): string
     {
@@ -16,8 +18,18 @@ class BadRequest extends HttpError
         return new ErrorMessage('Bad request');
     }
 
+    public function getHttpHeaders(): array
+    {
+        return [];
+    }
+
     public function getHttpCode(): int
     {
         return 400;
+    }
+
+    public function getOutput(): mixed
+    {
+        return null;
     }
 }

@@ -9,6 +9,29 @@ services:
   inisire\DataObject\:
     resource: '../../../../data-object/src/'
 
-  inisire\RPC\Loader\RouteLoader:
-    arguments: [ !tagged_locator { tag: 'messenger.message_handler' } ]
+  inisire\RPC\Routing\RouteLoader:
     tags: ['routing.loader']
+
+  inisire\RPC\DataObject\ObjectReferenceSerializerFactory:
+    arguments: [
+      !tagged_locator { tag: 'data_object.object_reference_loader' }
+    ]
+
+  inisire\DataObject\Serializer\ObjectReferenceSerializer:
+    factory: ['@inisire\RPC\DataObject\ObjectReferenceSerializerFactory', 'create']
+
+  inisire\DataObject\DataSerializerProvider:
+    lazy: true
+    class: inisire\RPC\DataObject\DataSerializerProvider
+    arguments: [
+      !tagged_locator { tag: 'rpc.data_serializer' },
+    ]
+
+  inisire\RPC\Entrypoint\CachedProvider:
+    arguments:
+      $cacheDir: '%kernel.cache_dir%'
+      $cacheFactory: '@config_cache_factory'
+
+  inisire\RPC\Entrypoint\EntrypointRootRegistry:
+    arguments:
+      $container: !tagged_locator { tag: 'rpc.root' }

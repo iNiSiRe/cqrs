@@ -2,7 +2,7 @@
 
 namespace inisire\RPC\Schema;
 
-class Stream extends Schema
+class Stream extends Data
 {
     public function getContentType(): ?string
     {

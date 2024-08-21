@@ -3,17 +3,18 @@
 namespace inisire\RPC\Error;
 
 use inisire\DataObject\Error\ErrorMessage;
+use inisire\RPC\Http\HttpResultInterface;
+use inisire\RPC\Result\ResultInterface;
 
-class LimitExceeded extends BadRequest
+class LimitExceeded implements ErrorInterface, ResultInterface, HttpResultInterface
 {
-    private ?int $count;
+    private ?int $used;
     private ?int $limit;
 
-    public function __construct(int $count = null, int $limit = null)
+    public function __construct(int $used = null, int $limit = null)
     {
-        $this->count = $count;
+        $this->used = $used;
         $this->limit = $limit;
-        parent::__construct();
     }
 
     public function getCode(): string
@@ -35,8 +36,8 @@ class LimitExceeded extends BadRequest
     {
         $headers = [];
 
-        if ($this->limit !== null && $this->count !== null) {
-            $headers['X-Rate-Limit-Remaining'] = $this->limit - $this->count;
+        if ($this->limit !== null && $this->used !== null) {
+            $headers['X-Rate-Limit-Remaining'] = $this->limit - $this->used;
         }
 
         if ($this->limit !== null) {
@@ -44,5 +45,10 @@ class LimitExceeded extends BadRequest
         }
 
         return $headers;
+    }
+
+    public function getOutput(): mixed
+    {
+        return null;
     }
 }

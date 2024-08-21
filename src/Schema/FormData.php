@@ -2,17 +2,15 @@
 
 namespace inisire\RPC\Schema;
 
-use inisire\DataObject\Definition\Definition;
+use inisire\DataObject\Schema\Type\Type;
 
-class FormData extends Schema
+class FormData extends Data
 {
-    public Definition $schema;
-
     public bool $multipart;
 
-    public function __construct(Definition $schema, bool $multipart = false)
+    public function __construct(Type $schema, bool $multipart = false)
     {
-        $this->schema = $schema;
+        parent::__construct(null, $schema);
         $this->multipart = $multipart;
     }
 

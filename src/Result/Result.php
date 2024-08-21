@@ -2,47 +2,34 @@
 
 namespace inisire\RPC\Result;
 
-use inisire\RPC\Http\StatusCode;
-use inisire\RPC\Result\Metadata\Metadata;
 
-/**
- * @template T
- */
-class Result implements SuccessResultInterface
+use inisire\RPC\Http\HttpResultInterface;
+
+class Result implements ResultInterface, HttpResultInterface, MutableOutputInterface
 {
-    private Metadata $metadata;
-
-    private mixed $data = null;
-
-    public function __construct(mixed $data)
+    public function __construct(
+        private mixed $output,
+    )
     {
-        $this->data = $data;
-        $this->metadata = new Metadata();
-        $this->metadata
-            ->join(new StatusCode(200));
     }
 
-    /**
-     * @param string|null $class
-     *
-     * @return T
-     */
-    public function getData(string $class = null)
+    public function getOutput(): mixed
     {
-        if ($class === null || $this->data instanceof $class) {
-            return $this->data;
-        } else {
-            return null;
-        }
+        return $this->output;
     }
 
-    public function getMetadata(): Metadata
+    public function getHttpCode(): int
     {
-        return $this->metadata;
+        return 200;
     }
 
-    public function getExitCode(): int
+    public function getHttpHeaders(): array
     {
-        return 0;
+        return [];
+    }
+
+    public function setOutput(mixed $output)
+    {
+        $this->output = $output;
     }
 }

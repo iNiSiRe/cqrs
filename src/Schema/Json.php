@@ -2,19 +2,12 @@
 
 namespace inisire\RPC\Schema;
 
-use inisire\DataObject\Definition\Definition;
+use inisire\DataObject\Schema\Type\Type;
 
-class Json extends Schema
+class Json extends Data
 {
-    public Definition $schema;
-
-    public function __construct(Definition $schema)
+    public function __construct(Type $schema)
     {
-        $this->schema = $schema;
-    }
-
-    public function getContentType(): ?string
-    {
-        return 'application/json';
+        parent::__construct('application/json', $schema);
     }
 }

@@ -2,22 +2,31 @@
 
 namespace inisire\RPC\Result;
 
-use inisire\RPC\Http\Headers;
+use inisire\RPC\Http\HttpResultInterface;
 use Psr\Http\Message\StreamInterface;
 
-class FileStreamResult extends Result
+class FileStreamResult implements ResultInterface, HttpResultInterface
 {
-    private StreamInterface $stream;
-
-    public function __construct(StreamInterface $stream, string $mimeType)
+    public function __construct(
+        private StreamInterface $stream,
+        private string $mimeType
+    )
     {
-        parent::__construct(null);
-        $this->stream = $stream;
-
-        $this->getMetadata()->join(Headers::createForItem('Content-Type', $mimeType));
     }
 
-    public function getStream(): StreamInterface
+    public function getHttpCode(): int
+    {
+        return 200;
+    }
+
+    public function getHttpHeaders(): array
+    {
+        return [
+            'Content-Type' => $this->mimeType
+        ];
+    }
+
+    public function getOutput(): mixed
     {
         return $this->stream;
     }
