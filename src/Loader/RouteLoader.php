@@ -30,7 +30,7 @@ class RouteLoader extends Loader implements RouteLoaderInterface
         return new RouteCollection();
     }
 
-    public function load($resource, string $type = null)
+    public function load($resource, string $type = null): mixed
     {
         $collection = new RouteCollection();
 
@@ -57,7 +57,7 @@ class RouteLoader extends Loader implements RouteLoaderInterface
                     $name = $annotation->name ?? $annotation->path;
                     $defaults = [
                         '_controller' => BusBridgeController::class,
-                        '_schema' => serialize($annotation)
+                        '_schema'     => serialize($annotation)
                     ];
                     $methods = $annotation->methods;
                 } else {
@@ -71,7 +71,7 @@ class RouteLoader extends Loader implements RouteLoaderInterface
         return $collection;
     }
 
-    public function supports($resource, string $type = null)
+    public function supports($resource, string $type = null): bool
     {
         return $type === 'rpc';
     }
