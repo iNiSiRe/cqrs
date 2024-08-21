@@ -26,13 +26,13 @@ class DocumentationGenerateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('rpc:documentation:generate');
         $this->addArgument('path', InputArgument::OPTIONAL, 'path', 'swagger.json');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $builder = new SpecificationBuilder();
 
@@ -65,6 +65,6 @@ class DocumentationGenerateCommand extends Command
 
         $output->writeln(sprintf('Generated: %s', $path));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
