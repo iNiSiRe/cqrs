@@ -7,8 +7,8 @@
   "require": {
     "php": ">=8.0",
     "inisire/data-object": "dev-master",
-    "symfony/framework-bundle": "^5.0",
-    "symfony/messenger": "^5.0",
+    "symfony/framework-bundle": "^7.0",
+    "symfony/messenger": "^7.0",
     "doctrine/annotations": "^1.0"
   },
   "autoload": {
