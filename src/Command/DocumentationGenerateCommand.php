@@ -1,3 +1,22 @@
+<?php
+
+
+namespace inisire\RPC\Command;
+
+
+use inisire\RPC\Annotation\RPC;
+use inisire\DataObject\Util\DocGenerator;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Routing\RouterInterface;
+
+
+class DocumentationGenerateCommand extends Command
+{
+    protected static $defaultName = 'rpc:documentation:generate';
+
+    private RouterInterface $router;
 
     public function __construct(RouterInterface $router)
     {
