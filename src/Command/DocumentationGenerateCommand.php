@@ -24,7 +24,7 @@ class DocumentationGenerateCommand extends Command
         $this->router = $router;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $routes = $this->router->getRouteCollection();
 
@@ -50,6 +50,6 @@ class DocumentationGenerateCommand extends Command
 
         echo $content . PHP_EOL;
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
