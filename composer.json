@@ -9,7 +9,7 @@
     "inisire/data-object": "^v7.0.x-dev",
     "symfony/framework-bundle": "7.0.*",
     "symfony/messenger": "7.0.*",
-    "doctrine/annotations": "^1.0"
+    "doctrine/annotations": "^2.0"
   },
   "autoload": {
     "psr-4": {
